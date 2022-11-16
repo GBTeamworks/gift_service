@@ -4,6 +4,10 @@
 2. Web-server. Apache TomCat в составе Java Spring Boot.
 3. Front-end. HTML Bootstrap с применением Thymeleaf. Возможно применение JS и AJAX.
 
+UPD:
+Стек Новиковой Е.: Spring Framework, Spring Data, Spring Security, AngularJS, MySQL, Flyway, Redis, Swagger, Lombok
+ТЗ по сервису подбора подарков в файле ТЗ.doc
+
 Идеи для реализации в проекте:
 1. Менеджер задач. Веб-сервис для создания, распределения и отслеживания выполнения поставленных задач.
 Подразумевается ведение списка пользователей, списка групп пользователей и списка задач со статусом выполнения.
