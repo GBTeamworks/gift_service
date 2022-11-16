@@ -10,3 +10,6 @@
 
 Состав команды и роли:
 1. https://github.com/BigElmo. Андрей. Архитектура приложения, сборка приложения, админ БД, отчёты по спринтам.
+
+Стек Новиковой Е.: Spring Framework, Spring Data, Spring Security, AngularJS, MySQL, Flyway, Redis, Swagger, Lombok
+ТЗ по сервису подбора подарков в файле ТЗ.doc
