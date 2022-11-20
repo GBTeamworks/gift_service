@@ -1,19 +1,19 @@
-Дипломный проект факультета Java-разработки университета GeekBrains.
-Выполняется группой студентов с применением следующего стека технологий:
-1. БД. MySQL. Стандартный Docker-образ. Связка с приложением через Hibernate.
-2. Web-server. Apache TomCat в составе Java Spring Boot.
-3. Front-end. HTML Bootstrap с применением Thymeleaf. Возможно применение JS и AJAX.
+<h3>Дипломный проект факультета Java-разработки университета GeekBrains.</h3>
+<h4>Выполняется группой студентов с применением следующего стека технологий:</h4>
+1. БД: MariaDB, Hibernate, Flyway.
+2. Web-server: Apache TomCat в составе Java Spring Boot.
+3. Front-end: AngularJS, Swagger, Redis (альтернативный вариаант: HTML, Bootstrap, Thymeleaf. Возможно применение JS и AJAX)
+4. Back-end: Maven, Spring Framework, Spring Data, Spring Security, Lombok
 
-UPD:
-Стек Новиковой Е.: Spring Framework, Spring Data, Spring Security, AngularJS, MySQL, Flyway, Redis, Swagger, Lombok
-ТЗ по сервису подбора подарков в файле ТЗ.doc
+<h4>Состав команды и роли:</h4>
+1. <a href="https://github.com/BigElmo">Андрей</a>: Project-owner, SCRUM-master, архитектура, dev-ops, back-end.
+2. <a href="https://github.com/Lucifergio">Алексей</a>: Бэкенд + фронтенд, тестирование.
+3. <a href="https://github.com/starmanSN">Самбу</a>: Бэкенд
+4. <a href="https://github.com/kvv-9209">Валентин</a>: Бэк, фронт на thymeleaf
+5. <a href="https://github.com/Novikova-EY">Елена</a>: Product-owner, Front-end (AngularJS), Back-end, дизайн.
+6. <a href="https://github.com/Egor-Khaziev">Егор</a>: Back-end
 
-Идеи для реализации в проекте:
-1. Менеджер задач. Веб-сервис для создания, распределения и отслеживания выполнения поставленных задач.
-Подразумевается ведение списка пользователей, списка групп пользователей и списка задач со статусом выполнения.
-
-Состав команды и роли:
-1. https://github.com/BigElmo. Андрей. Архитектура приложения, сборка приложения, админ БД, отчёты по спринтам.
-2. https://github.com/Lucifergio. Алексей. Бэкенд + фронтенд, тестирование.
-3. https://github.com/starmanSN. Самбу. Бэкенд
-4. https://github.com/kvv-9209. Валентин. Бэк, фронт на thymeleaf
+<h4>Тема проекта:</h4>
+"Сервис подбора подарков".
+<hr>
+Подробное описание проекта: <a href="https://docs.google.com/document/d/1JalT0d-NrFb3reD91P5e70R5gDLTBG3z/edit?usp=sharing&ouid=106094704088529691884&rtpof=true&sd=true">в гугл-доках</a>
