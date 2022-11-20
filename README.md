@@ -16,3 +16,4 @@ UPD:
 1. https://github.com/BigElmo. Андрей. Архитектура приложения, сборка приложения, админ БД, отчёты по спринтам.
 2. https://github.com/Lucifergio. Алексей. Бэкенд + фронтенд, тестирование.
 3. https://github.com/starmanSN. Самбу. Бэкенд
+4. https://github.com/kvv-9209. Валентин. Бэк, фронт на thymeleaf
