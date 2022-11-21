@@ -24,17 +24,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/user/list}">Пользователи</a>
+                    <a class="nav-link" th:href="@{/users}">Пользователи</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/gift/list}">Подарки</a>
+                    <a class="nav-link" th:href="@{/gifts}">Подарки</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/wish/list}">Желания</a>
+                    <a class="nav-link" th:href="@{/wishes}">Желания</a>
                 </li>
             </ul>
         </div>
-        <a class="nav-link" th:href="@{/cart}" th:align="right"><i class="fas fa-shopping-cart fa-2x"></i></a>
+        <a type="button" class="btn btn-primary" th:href="@{/login}" th:align="right">Войти</a>
+        &nbsp;
+        <a type="button" class="btn btn-success" th:href="@{/registration}" th:align="right">Регистрация</a>
     </div>
 </nav>
 
