@@ -18,7 +18,7 @@
 <li><a href="https://github.com/starmanSN">Самбу</a>: Бэкенд</li>
 <li><a href="https://github.com/kvv-9209">Валентин</a>: Бэк, фронт на thymeleaf</li>
 <li><a href="https://github.com/Novikova-EY">Елена</a>: Product-owner, Front-end (AngularJS), Back-end, дизайн.</li>
-<li><a href="https://github.com/Egor-Khaziev">Егор</a>: Back-end</li>
+<li><a href="https://github.com/Egor-Khaziev">Егор</a>: Back-end, БД(возможно)</li>
 </ul>
 
 <hr>
