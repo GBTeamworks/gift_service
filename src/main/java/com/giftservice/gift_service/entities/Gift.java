@@ -21,4 +21,13 @@ public class Gift {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Gift(Gift save) {
+        this.id = save.getId();
+        this.user = save.getUser();
+        this.title = save.getTitle();
+    }
+
+    public Gift() {
+    }
 }
