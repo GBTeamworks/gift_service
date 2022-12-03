@@ -5,19 +5,23 @@ services:
   db:
     image: mariadb:10.6
     restart: always
-    environment:
-      MARIADB_ROOT_PASSWORD: root
+    env_file:
+      - .env
     volumes:
       - ./databases:/var/lib/mysql
 
   adminer:
-    image: adminer
+    image: adminer:4.8.1
     restart: always
+    depends_on:
+      - db
     ports:
       - "4301:8080"
 
   web:
     build: ./
     restart: always
+    depends_on:
+      - db
     ports:
       - "4302:8080"
