@@ -23,7 +23,7 @@ public class Gift {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cart_gift",
             joinColumns = @JoinColumn(name = "gift_id"),
             inverseJoinColumns = @JoinColumn(name = "cart_id"))

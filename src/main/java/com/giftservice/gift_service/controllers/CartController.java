@@ -10,12 +10,12 @@ public class CartController {
 
     @GetMapping
     public String view(Model model) {
-        return "cart/list";
+        return "cart";
     }
 
     @PostMapping("/add/{giftId}")
     public String add(@PathVariable Long giftId) {
-        return "";
+        return "redirect:/gifts";
     }
 
     @DeleteMapping("/delete/{giftId}")
