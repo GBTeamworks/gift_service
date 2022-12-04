@@ -1,25 +1,80 @@
-var bgApp = angular.module('gift_service', ["ngRoute"])
-    .config(function ($routeProvider) {
+(function () {
+    angular
+        .module('gift_service', ['ngRoute', 'ngStorage'])
+        .config(config)
+        .run(run);
+
+    function config($routeProvider) {
         $routeProvider
-            .when('/mainPage',
-                {
-                    templateUrl: 'mainPage/mainPage.html',
-                    controller: 'mainPageController'
-                })
-
-            .when('/registration',
-                {
-                    templateUrl: 'registration/registration.html',
-                    controller: 'registrationController'
-                })
-
-            .when('/auth',
-                {
-                    templateUrl: 'auth/auth.html',
-                    controller: 'authController'
-                })
-
+            .when('/', {
+                templateUrl: 'main/main.html',
+                controller: 'mainController'
+            })
+            .when('/registration', {
+                templateUrl: 'registration/registration.html',
+                controller: 'registrationController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
-    });
+    }
+
+    function run($rootScope, $http, $localStorage) {
+        if ($localStorage.serviceUser) {
+            try {
+                let jwt = $localStorage.serviceUser.token;
+                let payload = JSON.parse(atob(jwt.split('.')[1]));
+                let currentTime = parseInt(new Date().getTime() / 1000);
+                if (currentTime > payload.exp) {
+                    console.log("Token is expired!!!");
+                    delete $localStorage.serviceUser;
+                    $http.defaults.headers.common.Authorization = '';
+                }
+            } catch (e) {
+            }
+
+            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.serviceUser.token;
+        }
+    }
+})();
+
+angular.module('market').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
+    $scope.tryToAuth = function () {
+        $http.post('http://localhost:5555/auth', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $localStorage.serviceUser = {username: $scope.user.username, token: response.data.token};
+
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+
+                    $http.get('http://localhost:5555/api/v1/')
+                        .then(function successCallback(response) {
+                        });
+
+                    $location.path('/');
+                }
+            }, function errorCallback(response) {
+            });
+    };
+
+    $rootScope.tryToLogout = function () {
+        $scope.clearUser();
+        $scope.user = null;
+        $location.path('/');
+    };
+
+    $scope.clearUser = function () {
+        delete $localStorage.serviceUser;
+        $http.defaults.headers.common.Authorization = '';
+    };
+
+    $rootScope.isUserLoggedIn = function () {
+        if ($localStorage.serviceUser) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+});
