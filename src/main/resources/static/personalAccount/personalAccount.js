@@ -1,5 +1,5 @@
 angular.module('gift_service').controller('personalAccountController', function ($scope, $http, $localStorage) {
-    const cartPath = 'http://localhost:5555/cart';
+    const cartPath = 'http://...:.../cart';
 
     $scope.loadCart = function () {
         $http.get(cartPath + '/api/v1/cart/' + $localStorage.marketGuestCartId).then(function (response) {

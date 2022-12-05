@@ -1,5 +1,5 @@
 angular.module('gift_service').controller('registrationController', function ($scope, $http, $localStorage, $location) {
-    const authPath = 'http://localhost:5555/auth';
+    const authPath = 'http://...:.../auth';
 
     $scope.functionRegistration = function () {
         $http.post(authPath + '/registration', $scope.reguser).then(function (response) {
