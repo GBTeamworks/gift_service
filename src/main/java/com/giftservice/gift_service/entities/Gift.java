@@ -4,6 +4,7 @@ import com.giftservice.gift_service.entities.security.User;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -30,4 +31,10 @@ public class Gift {
 
     public Gift() {
     }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "cart_gift",
+            joinColumns = @JoinColumn(name = "gift_id"),
+            inverseJoinColumns = @JoinColumn(name = "cart_id"))
+    private Set<Cart> carts;
 }
