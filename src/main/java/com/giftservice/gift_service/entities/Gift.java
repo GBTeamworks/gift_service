@@ -23,10 +23,18 @@ public class Gift {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Gift(Gift save) {
+        this.id = save.getId();
+        this.user = save.getUser();
+        this.title = save.getTitle();
+    }
+
+    public Gift() {
+    }
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cart_gift",
             joinColumns = @JoinColumn(name = "gift_id"),
             inverseJoinColumns = @JoinColumn(name = "cart_id"))
     private Set<Cart> carts;
-
 }
