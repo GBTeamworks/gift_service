@@ -37,4 +37,10 @@ public class Gift {
             joinColumns = @JoinColumn(name = "gift_id"),
             inverseJoinColumns = @JoinColumn(name = "cart_id"))
     private Set<Cart> carts;
+
+    @ManyToMany
+    @JoinTable(name = "category_gift",
+            joinColumns = @JoinColumn(name = "gift_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 }
