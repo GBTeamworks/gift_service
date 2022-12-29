@@ -27,9 +27,4 @@ public class MainController {
     public String wishesPage() {
         return "wishes";
     }
-
-    @GetMapping("/cart")
-    public String cartPage() {
-        return "cart";
-    }
 }

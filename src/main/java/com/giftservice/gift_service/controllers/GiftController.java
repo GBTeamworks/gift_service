@@ -16,16 +16,16 @@ public class GiftController {
 
     @GetMapping
     public String view(Model model) {
-        model.addAttribute("gift", giftService.getGiftList());
+        model.addAttribute("gift", giftService.findAll());
         return "gift/list"; }
 
-    @PostMapping("/add")
+    @PutMapping("/")
     public String add(@PathVariable String title) {
-        giftService.createNewGift(title);
+        giftService.create(title);
         return "gift/list";
     }
 
-    @DeleteMapping("/delete/{giftId}")
+    @PutMapping("/delete/{giftId}")
     public String remove(@PathVariable Long giftId) {
         giftService.deleteById(giftId);
         return "gift/list";

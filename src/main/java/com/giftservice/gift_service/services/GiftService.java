@@ -16,17 +16,17 @@ public class GiftService {
     private final GiftDao giftDao;
     private final UserDao userDao;
 
-    public List<Gift> getGiftList(){
+    public List<Gift> findAll(){
         return giftDao.findAll();
     }
 
-    public Gift createNewGift(String newGiftTitle){
+    public Gift create(String newGiftTitle){
         Gift newGift = new Gift();
         newGift.setTitle(newGiftTitle);
-        return new Gift(giftDao.save(newGift));
+        return giftDao.save(newGift);
     }
 
-    public Gift getGiftByID(Long id){
+    public Gift getById(Long id){
         return new Gift(giftDao.findById(id).get());
     }
 

@@ -17,8 +17,10 @@ public class Cart {
     @Column(name = "id")
     private Long id;
 
+    @ElementCollection(targetClass = Status.class, fetch = FetchType.EAGER)
     @Column(name = "status")
-    private String status = Status.AVAILABLE.getTitle();
+    @Enumerated(EnumType.STRING)
+    private Set<Status> status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cart_gift",
