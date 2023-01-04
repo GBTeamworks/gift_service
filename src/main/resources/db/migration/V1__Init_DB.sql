@@ -15,6 +15,28 @@ create table gifts
     foreign key (user_id) references users (id)
 );
 
+create table cart
+(
+    id     bigint primary key,
+    status varchar(255) not null default 'AVAILABLE'
+);
+
+create table cart_gift
+(
+    cart_id bigint not null,
+    gift_id bigint not null,
+
+    primary key (cart_id, gift_id),
+
+    constraint fk_cart_gift_cart
+        foreign key (cart_id)
+            references cart (id),
+
+    constraint fk_cart_gift_gift
+        foreign key (gift_id)
+            references gifts (id)
+);
+
 
 
 

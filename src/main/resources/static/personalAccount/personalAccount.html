@@ -1,0 +1,34 @@
+<meta charset="utf-8">
+<div style="margin: 50px" >
+    <h2>Личный кабинет</h2>
+    <p></p>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#!/">Регистрационные данные</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#!/">Все мои друзья</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#!/">Я буду дарить</a>
+            </li>
+
+            <table class="table table-hover" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>Название</td>
+                    <td></td>
+                </tr>
+                <tbody>
+                <tr ng-repeat="item in cart.items">
+                    <td>{{item.giftTitle}}</td>
+                    <td><button type="button" class="btn btn-danger" ng-click="deleteFromCart(item.giftId)">Удалить</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </ul>
+    </div>
+</div>

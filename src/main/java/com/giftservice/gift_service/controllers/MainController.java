@@ -27,19 +27,4 @@ public class MainController {
     public String wishesPage() {
         return "wishes";
     }
-
-    @GetMapping("/cart")
-    public String cartPage() {
-        return "cart";
-    }
-
-    @GetMapping("/login") //TODO Времянка, позже сделаю через Spring Security
-    public String loginPage() {
-        return "login";
-    }
-
-    @GetMapping("/registration") //TODO Времянка, позже сделаю через Spring Security
-    public String registrationPage() {
-        return "registration";
-    }
 }
