@@ -10,9 +10,13 @@
 </nav>
 
 <div class="container">
-    <form method="post"
+    <h1 th:align="center">Личные данные</h1>
+</div>
+
+<div class="container">
+    <form th:method="PUT"
           role="form"
-          th:action="@{/registration/save}"
+          th:action="@{/lk/reg-data}"
           th:object="${user}">
 
         <div class="form-group">
@@ -24,8 +28,6 @@
             <label for="exampleInputEmail1">Email адрес</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                    placeholder="Введите email" th:field="*{email}">
-            <small id="emailHelp" class="form-text text-muted">Мы никогда не будем делиться вашей электронной почтой с
-                кем-либо еще.</small>
         </div>
 
         <div class="form-group">
@@ -33,13 +35,7 @@
             <input type="date" value="гггг-мм-дд" class="form-control" th:field="*{birthdate}">
         </div>
 
-        <div class="form-group">
-            <label for="exampleInputPassword1">Пароль</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Введите пароль"
-                   th:field="*{password}">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Регистрация</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
 </div>
 </body>
