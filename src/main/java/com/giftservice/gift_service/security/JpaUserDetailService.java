@@ -14,13 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class JpaUserDetailService implements UserDetailsService {
 
     private final UserDao userDao;
+    private String thisUsername;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        thisUsername = username;
         User users = userDao.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("Username: " + username + "not found!")
         );
         return users;
+    }
+
+    public String getThisUsername(){
+        return thisUsername;
     }
 }

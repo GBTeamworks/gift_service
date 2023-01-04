@@ -15,6 +15,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.formLogin(form -> form
+                .loginPage("/login")
+                .permitAll()
+        );
         http.authorizeRequests(
                 (requests) -> requests.antMatchers("/", "/registration", "/registration/save").permitAll()
         );
@@ -23,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 (requests) -> {
                     ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl) requests.anyRequest()).authenticated();
                 });
-        http.formLogin();
         http.httpBasic();
     }
 

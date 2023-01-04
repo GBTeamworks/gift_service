@@ -10,11 +10,28 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
     <title>Сервис подбора подарков</title>
+
+    <style>
+        body {
+            padding-bottom: 120px;
+        }
+
+        footer {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+        }
+    </style>
 </head>
 
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Главная</a>
+<!--        <a class="navbar-brand" th:href="@{/}">Главная</a>-->
+        <a class="navbar-brand" th:href="@{/}">
+            <img src="https://www.svgrepo.com/show/425210/gift-ecommerce-shopmarket.svg" alt="" width="40" height="35">
+        </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,14 +49,21 @@
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/wishes}">Желания</a>
                 </li>
+            </ul>
 
+            <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item" sec:authorize="isAnonymous()">
-                    <a type="button" th:href="@{/login}" class="btn btn-success">Войти</a>
+                    <a type="button" th:href="@{/login}" class="btn btn-success navbar-right">Войти</a>
                 </li>
+                &nbsp;
                 <li class="nav-item" sec:authorize="isAnonymous()">
-                    <a type="button" th:href="@{/registration}" class="btn btn-primary">Регистрация</a>
+                    <a type="button" th:href="@{/registration}" class="btn btn-primary navbar-right">Регистрация</a>
                 </li>
 
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a type="button" th:href="@{/lk}" class="btn btn-success navbar-right">Личный кабинет</a>
+                </li>
+                &nbsp;
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
                         <input type="submit" class="btn btn-danger" value="Выйти"/>

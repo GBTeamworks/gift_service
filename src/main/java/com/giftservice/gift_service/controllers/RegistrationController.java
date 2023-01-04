@@ -1,22 +1,16 @@
 package com.giftservice.gift_service.controllers;
 
-import com.giftservice.gift_service.dao.UserDao;
 import com.giftservice.gift_service.dto.UserDto;
 import com.giftservice.gift_service.entities.security.User;
-import com.giftservice.gift_service.security.JpaUserDetailService;
-import com.giftservice.gift_service.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.giftservice.gift_service.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.Date;
 
 @Controller
 public class RegistrationController {
@@ -33,6 +27,11 @@ public class RegistrationController {
         model.addAttribute("user", user);
 
         return "registration";
+    }
+
+    @GetMapping("/login")
+    String login() {
+        return "login";
     }
 
     @PostMapping("/registration/save")

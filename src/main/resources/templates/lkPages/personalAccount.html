@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html::head">
+    <title>Личный кабинет</title>
+</head>
+
+<body>
+
+<nav th:replace="fragments/header.html::navbar">
+</nav>
+
+<div class="container">
+    <h1 th:align="center">Личный кабинет</h1>
+</div>
+
+<div class="list-group" th:align="center">
+    <a th:href="@{/lk/reg-data}" class="list-group-item list-group-item-action active" aria-current="true">
+        Регистрационные данные
+    </a>
+    <a th:href="@{/lk/friends}" class="list-group-item list-group-item-action">Все мои друзья</a>
+    <a th:href="@{/lk/gifts-list}" class="list-group-item list-group-item-action">Я хочу</a>
+    <a th:href="@{/lk/i-will-give}" class="list-group-item list-group-item-action">Я буду дарить</a>
+    <a th:href="@{/}" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">В разработке</a>
+</div>
+</body>
+<th:block th:replace="fragments/footer.html::footer">
+</th:block>
+</html>
