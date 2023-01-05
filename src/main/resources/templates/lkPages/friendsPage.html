@@ -13,8 +13,49 @@
     <h1 th:align="center">Друзья</h1>
 </div>
 
-<th:block th:replace="fragments/footer.html::scripts">
-</th:block>
+<div class="container">
+    <span th:if="${friends.size() == 0}">Список друзей пуст</span>
+    <div th:unless="${friends.size() == 0}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Имя пользователя</th>
+                <th scope="col">День рождения</th>
+                <th scope="col">Почта</th>
+                <th scope="col">Удалить</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="friend, i : ${friends}">
+
+                <td th:text="${i.count}"></td>
+                <td th:text="${friend.getUsername()}"></td>
+                <td th:text="${friend.getBirthdate()}"></td>
+                <td th:text="${friend.getEmail()}"></td>
+                <td>
+                    <form method="post"
+                          role="form"
+                          th:action="@{/lk/delete-friend}">
+
+                        <input type="hidden" name="username" id="username" th:value="${friend.getUsername()}"/>
+                        <input type="hidden" name="email" id="email" th:value="${friend.getEmail()}"/>
+                        <input type="hidden" name="birthdate" id="birthdate" th:value="${friend.getBirthdate()}"/>
+
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td>Всего друзей</td>
+                <td th:text="${friends.size()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 </body>
 <th:block th:replace="fragments/footer.html::footer">

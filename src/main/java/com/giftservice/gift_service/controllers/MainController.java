@@ -13,11 +13,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/users")
-    public String usersPage() {
-        return "users";
-    }
-
     @GetMapping("/gifts")
     public String giftsPage() {
         return "gifts";

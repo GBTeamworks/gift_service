@@ -2,15 +2,11 @@ package com.giftservice.gift_service.entities.security;
 
 import com.giftservice.gift_service.entities.Gift;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -20,6 +16,10 @@ import java.util.Set;
 @Builder
 @Table(name = "users")
 public class User implements UserDetails {
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +40,22 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Gift> gifts;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_friends",
+            joinColumns = {@JoinColumn(name = "channel_id")},
+            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
+    )
+    private Set<User> subscribers;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_friends",
+            joinColumns = {@JoinColumn(name = "friend_id")},
+            inverseJoinColumns = {@JoinColumn(name = "channel_id")}
+    )
+    private Set<User> subscriptions;
 
     @Singular
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
