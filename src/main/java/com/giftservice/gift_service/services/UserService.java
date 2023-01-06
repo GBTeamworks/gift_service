@@ -11,6 +11,10 @@ public interface UserService {
 
     void updateUser(UserDto userDto);
 
+    void addFriend(UserDto thisUserDto, UserDto friendUserDto);
+
+    void deleteFriend(UserDto thisUserDto, UserDto friendUserDto);
+
     User findUserByEmail(String email);
 
     User findUserByUsername(String username);

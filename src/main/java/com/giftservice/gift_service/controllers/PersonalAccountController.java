@@ -8,13 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @Controller
 @RequestMapping("/lk")
 public class PersonalAccountController {
 
-    private JpaUserDetailService jpaUserDetailService;
-    private UserService userService;
-    private User user;
+    private final JpaUserDetailService jpaUserDetailService;
+    private final UserService userService;
 
     public PersonalAccountController(JpaUserDetailService jpaUserDetailService, UserService userService) {
         this.jpaUserDetailService = jpaUserDetailService;
@@ -29,29 +30,23 @@ public class PersonalAccountController {
     @GetMapping("/reg-data")
     public String registrationData(Model model) {
         UserDto userDto = new UserDto();
-        if (user == null) {
-            user = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
-            userDto.setUsername(user.getUsername());
-            userDto.setBirthdate(user.getBirthdate().toString());
-            userDto.setEmail(user.getEmail());
-            model.addAttribute("user", userDto);
-            return "lkPages/registrationDataPage";
-        } else {
-            userDto.setUsername(user.getUsername());
-            userDto.setBirthdate(user.getBirthdate().toString());
-            userDto.setEmail(user.getEmail());
-            model.addAttribute("user", userDto);
-            return "lkPages/registrationDataPage";
-        }
+
+        User user = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+
+        userDto.setUsername(user.getUsername());
+        userDto.setBirthdate(user.getBirthdate().toString());
+        userDto.setEmail(user.getEmail());
+        model.addAttribute("user", userDto);
+        return "lkPages/registrationDataPage";
     }
 
     @PostMapping("/reg-data")
-    public String changeRegData(@ModelAttribute("user") UserDto userDto,
-                                Model model) {
+    public String changeRegData(@ModelAttribute("user") UserDto userDto) {
 
         //TODO исправить сохранение данных. Пока работает только сохранение юзернейма.
 
         User existingUser = userService.findUserByEmail(userDto.getEmail());
+        User user = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
 
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
 
@@ -66,9 +61,28 @@ public class PersonalAccountController {
     }
 
     @GetMapping("/friends")
-    public String friends() {
+    public String friends(Model model) {
+
+        User user = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+        Set<User> friends = user.getSubscribers();
+
+        model.addAttribute("friends", friends);
+
         return "lkPages/friendsPage";
-    } //todo доделать после создания страницы Пользователи
+    }
+
+    @PostMapping("/delete-friend")
+    public String deleteFriends(@ModelAttribute("user") UserDto friendUserDto) {
+
+        User thisUser = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+        UserDto thisUserDto = new UserDto();
+
+        thisUserDto.setUsername(thisUser.getUsername());
+        thisUserDto.setBirthdate(thisUser.getBirthdate().toString());
+        thisUserDto.setEmail(thisUser.getEmail());
+        userService.deleteFriend(thisUserDto, friendUserDto);
+        return "redirect:/lk/friends";
+    }
 
     @GetMapping("/gifts-list") //todo доделать после создания страниц Подарки
     public String giftsList() {

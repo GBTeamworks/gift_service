@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
-    private AuthorityRepository authorityRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final AuthorityRepository authorityRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository,
                            AuthorityRepository authorityRepository,
@@ -44,6 +44,28 @@ public class UserServiceImpl implements UserService {
         }
         user.setAuthorities(Set.of(role));
         userRepository.save(user);
+    }
+
+    @Override
+    public void addFriend(UserDto thisUserDto, UserDto friendUserDto) {
+
+        User thisUser = userRepository.findByEmail(thisUserDto.getEmail());
+        User friend = userRepository.findByEmail(friendUserDto.getEmail());
+
+        thisUser.getSubscribers().add(friend);
+
+        userRepository.save(thisUser);
+    }
+
+    @Override
+    public void deleteFriend(UserDto thisUserDto, UserDto friendUserDto) {
+
+        User thisUser = userRepository.findByEmail(thisUserDto.getEmail());
+        User friend = userRepository.findByEmail(friendUserDto.getEmail());
+
+        thisUser.getSubscribers().remove(friend);
+
+        userRepository.save(thisUser);
     }
 
     @Override
