@@ -37,6 +37,24 @@ create table cart_gift
             references gifts (id)
 );
 
+create table categories
+(
+    id    bigint primary key,
+    title varchar(255) not null,
+);
 
+create table category_gift
+(
+    category_id bigint not null,
+    gift_id     bigint not null,
 
+    primary key (category_id, gift_id),
 
+    constraint fk_category_gift_category
+        foreign key (category_id)
+            references category (id),
+
+    constraint fk_category_gift_gift
+        foreign key (gift_id)
+            references gifts (id)
+);
