@@ -48,14 +48,17 @@ public class UsersController {
         for (User user : users) {
             counter = 0;
             for (User friend : friends) {
+
                 if (!user.getEmail().equals(friend.getEmail())
                         && !user.getEmail().equals("testUser@mail.ru")
                         && !user.getEmail().equals("testAdmin@mail.ru")
                         && !user.getEmail().equals(thisUser.getEmail())) {
+
                     counter++;
                 }
             }
             if (counter == friends.size()) {
+
                 userListToShow.add(user);
             }
         }

@@ -9,47 +9,38 @@
 <nav th:replace="fragments/header.html::navbar">
 </nav>
 
-&nbsp;
-
 <div class="container">
-    <h1 th:align="center">Я буду дарить</h1>
+    <h1 th:align="center">Страница подарков</h1>
 </div>
-
-&nbsp;
 
 <div class="container">
     <span th:if="${gifts.size() == 0}">Список подарков пуст</span>
     <div th:unless="${gifts.size() == 0}">
-
         <div class="card mb-3" th:each="gift, i : ${gifts}" th:align="center">
             <img class="card-img-top" src="https://svgur.com/i/pMd.svg" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title" th:text="${gift.getTitle()}"></h5>
                 <p class="card-text" th:text="${gift.getDescription()}"></p>
-
+                <p class="card-text"><small class="text-muted"
+                                            th:text="${gift.getUser().username + ' хочет этот подарок'}"></small></p>
                 <form method="post"
                       role="form"
-                      th:action="@{/lk/delete-give}">
+                      th:action="@{/gifts/will-give}">
 
-                    <input type="hidden" name="title" id="title" th:value="${gift.title}"/>
-                    <input type="hidden" name="description" id="description" th:value="${gift.description}"/>
-                    <button type="submit" class="btn btn-danger">Удалить</button>
+                    <input type="hidden" name="title" id="title" th:value="${gift.getTitle()}"/>
+                    <input type="hidden" name="description" id="description" th:value="${gift.getDescription()}"/>
+                    <input type="hidden" name="username" id="username" th:value="${gift.getUser().username}"/>
+
+                    <button type="submit" class="btn btn-success navbar-right">Буду дарить</button>
                 </form>
-
             </div>
         </div>
         &nbsp;
     </div>
 </div>
-
-<footer class="bg-light text-center text-lg-start fixed-bottom">
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2022 Copyright:
-        <a class="text-dark" href="https://gb.ru/"> GeekBrains</a>
-    </div>
-    <!-- Copyright -->
-</footer>
-
+</div>
+</div>
 </body>
+<th:block th:replace="fragments/footer.html::footer">
+</th:block>
 </html>

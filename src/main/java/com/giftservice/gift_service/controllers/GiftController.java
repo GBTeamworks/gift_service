@@ -1,40 +1,67 @@
 package com.giftservice.gift_service.controllers;
 
-import com.giftservice.gift_service.dao.GiftDao;
+import com.giftservice.gift_service.dto.GiftDto;
+import com.giftservice.gift_service.entities.Cart;
+import com.giftservice.gift_service.entities.Gift;
+import com.giftservice.gift_service.entities.security.User;
+import com.giftservice.gift_service.security.JpaUserDetailService;
+import com.giftservice.gift_service.services.CartService;
 import com.giftservice.gift_service.services.GiftService;
-import lombok.RequiredArgsConstructor;
+import com.giftservice.gift_service.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/gift")
-@RequiredArgsConstructor
+@RequestMapping("/gifts")
 public class GiftController {
 
     private final GiftService giftService;
+    private final JpaUserDetailService jpaUserDetailService;
+    private final UserService userService;
+    private final CartService cartService;
+
+    public GiftController(GiftService giftService, JpaUserDetailService jpaUserDetailService, UserService userService, CartService cartService) {
+        this.giftService = giftService;
+        this.jpaUserDetailService = jpaUserDetailService;
+        this.userService = userService;
+        this.cartService = cartService;
+    }
 
     @GetMapping
     public String view(Model model) {
-        model.addAttribute("gift", giftService.getGiftList());
-        return "gift/list"; }
+        User thisUser = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+        String username = "";
+        List<Gift> giftsFiltered = new java.util.ArrayList<>(giftService.getGiftList()
+                .stream()
+                .filter(p -> !p.getUser().getUsername().equals(thisUser.getUsername()))
+                .filter(p -> p.getCart() == null)
+                .toList());
 
-    @PostMapping("/add")
-    public String add(@PathVariable String title) {
-        giftService.createNewGift(title);
-        return "gift/list";
+        model.addAttribute("gifts", giftsFiltered);
+        model.addAttribute("username", username);
+        return "giftsPages/gifts";
     }
 
-    @DeleteMapping("/delete/{giftId}")
-    public String remove(@PathVariable Long giftId) {
-        giftService.deleteById(giftId);
-        return "gift/list";
+    @PostMapping("/will-give")
+    public String willGive(@ModelAttribute("gift") GiftDto giftDto, @ModelAttribute("username") String username) {
+
+        User wisher = userService.findUserByUsername(username);
+        Gift gift = giftService.getGiftByUserAndTitle(wisher, giftDto.getTitle());
+        User giver = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+        Cart cart;
+
+        if (giver.getCart() == null) {
+            cart = new Cart();
+            cart.setGiver(giver);
+        } else {
+            cart = giver.getCart();
+        }
+        cart.getGifts().add(gift);
+        cartService.save(cart);
+
+        return "redirect:/lk/i-will-give";
     }
-
-    @PostMapping
-    public String update() {
-        return "gift/list";
-    }
-
-
 }
