@@ -1,11 +1,10 @@
 package com.giftservice.gift_service.services;
 
-import com.giftservice.gift_service.dao.GiftDao;
-import com.giftservice.gift_service.dao.UserDao;
+import com.giftservice.gift_service.dto.GiftDto;
 import com.giftservice.gift_service.entities.Gift;
+import com.giftservice.gift_service.entities.security.User;
+import com.giftservice.gift_service.repository.GiftRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,28 +12,28 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class GiftService {
-    private final GiftDao giftDao;
-    private final UserDao userDao;
 
-    public List<Gift> getGiftList(){
-        return giftDao.findAll();
+    private final GiftRepository giftRepository;
+
+    public List<Gift> getGiftList() {
+        return giftRepository.findAll();
     }
 
-    public Gift createNewGift(String newGiftTitle){
+    public void createNewGift(GiftDto newGiftDto) {
         Gift newGift = new Gift();
-        newGift.setTitle(newGiftTitle);
-        return new Gift(giftDao.save(newGift));
+
+        newGift.setTitle(newGiftDto.getTitle());
+        newGift.setDescription(newGiftDto.getDescription());
+        newGift.setUser(newGiftDto.getUser());
+
+        giftRepository.save(newGift);
     }
 
-    public Gift getGiftByID(Long id){
-        return new Gift(giftDao.findById(id).get());
+    public Gift getGiftByUserAndTitle(User user, String title) {
+        return giftRepository.findGiftByUserAndTitle(user, title);
     }
 
-    public void deleteById(long id){
-        giftDao.deleteById(id);
-    }
-
-    public Page<Gift> findPage(int pageIndex, int pageSize) {
-        return giftDao.findAll(PageRequest.of(pageIndex, pageSize)).map(Gift::new);
+    public void deleteById(long id) {
+        giftRepository.deleteById(id);
     }
 }

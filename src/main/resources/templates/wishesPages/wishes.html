@@ -9,10 +9,20 @@
 <nav th:replace="fragments/header.html::navbar">
 </nav>
 
+<div class="container">
+    <h1 th:align="center">Страница желаний</h1>
+</div>
+
+&nbsp;
+
+<a th:href="@{/wishes/add-wish}" class="btn btn-primary btn-lg btn-block" th:align="center">
+    Добавить новое желание
+</a>
+
 &nbsp;
 
 <div class="container">
-    <h1 th:align="center">Я буду дарить</h1>
+    <h2 th:align="center">Список моих желаний</h2>
 </div>
 
 &nbsp;
@@ -26,30 +36,22 @@
             <div class="card-body">
                 <h5 class="card-title" th:text="${gift.getTitle()}"></h5>
                 <p class="card-text" th:text="${gift.getDescription()}"></p>
-
                 <form method="post"
                       role="form"
-                      th:action="@{/lk/delete-give}">
+                      th:action="@{/wishes/delete-wish}">
 
                     <input type="hidden" name="title" id="title" th:value="${gift.title}"/>
                     <input type="hidden" name="description" id="description" th:value="${gift.description}"/>
+
                     <button type="submit" class="btn btn-danger">Удалить</button>
                 </form>
-
             </div>
         </div>
         &nbsp;
     </div>
 </div>
 
-<footer class="bg-light text-center text-lg-start fixed-bottom">
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2022 Copyright:
-        <a class="text-dark" href="https://gb.ru/"> GeekBrains</a>
-    </div>
-    <!-- Copyright -->
-</footer>
-
 </body>
+<th:block th:replace="fragments/footer.html::footer">
+</th:block>
 </html>

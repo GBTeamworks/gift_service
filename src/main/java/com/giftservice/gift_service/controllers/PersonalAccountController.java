@@ -1,8 +1,12 @@
 package com.giftservice.gift_service.controllers;
 
+import com.giftservice.gift_service.dto.GiftDto;
 import com.giftservice.gift_service.dto.UserDto;
+import com.giftservice.gift_service.entities.Cart;
+import com.giftservice.gift_service.entities.Gift;
 import com.giftservice.gift_service.entities.security.User;
 import com.giftservice.gift_service.security.JpaUserDetailService;
+import com.giftservice.gift_service.services.CartService;
 import com.giftservice.gift_service.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +20,13 @@ public class PersonalAccountController {
 
     private final JpaUserDetailService jpaUserDetailService;
     private final UserService userService;
+    private final CartService cartService;
 
-    public PersonalAccountController(JpaUserDetailService jpaUserDetailService, UserService userService) {
+
+    public PersonalAccountController(JpaUserDetailService jpaUserDetailService, UserService userService, CartService cartService) {
         this.jpaUserDetailService = jpaUserDetailService;
         this.userService = userService;
+        this.cartService = cartService;
     }
 
     @GetMapping
@@ -84,13 +91,43 @@ public class PersonalAccountController {
         return "redirect:/lk/friends";
     }
 
-    @GetMapping("/gifts-list") //todo доделать после создания страниц Подарки
-    public String giftsList() {
-        return "lkPages/personalGiftListPage";
+    @GetMapping("/gifts-list")
+    public String giftsList(Model model) {
+        return "redirect:/wishes";
     }
 
-    @GetMapping("/i-will-give") //todo доделать после создания страниц Подарки
-    public String iWillGive() {
+    @GetMapping("/i-will-give")
+    public String iWillGive(Model model) {
+        User thisUser = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+        Cart cart = thisUser.getCart();
+
+        model.addAttribute("gifts", cart.getGifts());
         return "lkPages/iWillGivePage";
+    }
+
+    @PostMapping("/i-will-give/add")
+    public String iWillGiveAdd(@ModelAttribute("user") UserDto friendUserDto) {
+
+        return "redirect:/lk/i-will-give";
+    }
+
+    @PostMapping("/delete-give")
+    public String remove(@ModelAttribute("gift") GiftDto giftDto) {
+
+        User thisUser = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+        Gift giftToRemove = null;
+
+        for (Gift giftInCart : thisUser.getCart().getGifts()) {
+            if (giftInCart.getTitle().equals(giftDto.getTitle())
+                    && giftInCart.getDescription().equals(giftDto.getDescription())) {
+
+                giftToRemove = giftInCart;
+            }
+        }
+        if (giftToRemove != null) {
+            thisUser.getCart().getGifts().remove(giftToRemove);
+            cartService.save(thisUser.getCart());
+        }
+        return "redirect:/lk/i-will-give";
     }
 }

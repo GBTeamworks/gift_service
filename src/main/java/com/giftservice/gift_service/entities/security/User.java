@@ -1,7 +1,10 @@
 package com.giftservice.gift_service.entities.security;
 
+import com.giftservice.gift_service.entities.Cart;
 import com.giftservice.gift_service.entities.Gift;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -40,6 +43,14 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Gift> gifts;
+
+    @OneToOne
+    @JoinTable(
+            name = "user_cart",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "cart_id")}
+    )
+    private Cart cart;
 
     @ManyToMany
     @JoinTable(
