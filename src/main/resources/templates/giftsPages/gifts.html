@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html::head">
+</head>
+
+<body>
+
+<nav th:replace="fragments/header.html::navbar">
+</nav>
+
+<div class="container">
+    <h1 th:align="center">Страница подарков</h1>
+</div>
+
+<div class="container">
+    <span th:if="${gifts.size() == 0}">Список подарков пуст</span>
+    <div th:unless="${gifts.size() == 0}">
+        <div class="card mb-3" th:each="gift, i : ${gifts}" th:align="center">
+            <img class="card-img-top" th:src="@{/img/gift.svg}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${gift.getTitle()}"></h5>
+                <p class="card-text" th:text="${gift.getDescription()}"></p>
+                <p class="card-text"><small class="text-muted"
+                                            th:text="${gift.getUser().username + ' хочет этот подарок'}"></small></p>
+                <form method="post"
+                      role="form"
+                      th:action="@{/gifts/will-give}">
+
+                    <input type="hidden" name="title" id="title" th:value="${gift.getTitle()}"/>
+                    <input type="hidden" name="description" id="description" th:value="${gift.getDescription()}"/>
+                    <input type="hidden" name="username" id="username" th:value="${gift.getUser().username}"/>
+
+                    <button type="submit" class="btn btn-success navbar-right">Буду дарить</button>
+                </form>
+            </div>
+        </div>
+        &nbsp;
+    </div>
+</div>
+</div>
+</div>
+</body>
+<th:block th:replace="fragments/footer.html::footer">
+</th:block>
+</html>

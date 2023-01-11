@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:replace="fragments/header.html::head">
 </head>
@@ -10,11 +10,56 @@
 </nav>
 
 <div class="container">
-  <h1 th:align="center">Страница пользователей</h1>
+    <h1 th:align="center">Страница пользователей</h1>
 </div>
 
-<th:block th:replace="fragments/footer.html::scripts">
-</th:block>
+<div class="container">
+    <span th:if="${users.size() == 0}">Список пользователей пуст</span>
+    <div th:unless="${users.size() == 0}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Имя пользователя</th>
+                <th scope="col">День рождения</th>
+                <th scope="col">Почта</th>
+                <th scope="col">Добавить в друзья</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user, i : ${users}">
 
+                <td th:text="${i.count}"></td>
+                <td th:text="${user.getUsername()}"></td>
+                <td th:text="${user.getBirthdate()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td>
+                    <form method="post"
+                          role="form"
+                          th:action="@{/users/add-friend}">
+
+                        <input type="hidden" name="username" id="username" th:value="${user.getUsername()}"/>
+                        <input type="hidden" name="email" id="email" th:value="${user.getEmail()}"/>
+                        <input type="hidden" name="birthdate" id="birthdate" th:value="${user.getBirthdate()}"/>
+
+                        <button type="submit" class="btn btn-success navbar-right">Добавить</button>
+                    </form>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td>Всего пользователей</td>
+                <td th:text="${users.size()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
+
+<footer>
+    <th:block th:replace="fragments/footer.html::footer">
+    </th:block>
+</footer>
 </html>

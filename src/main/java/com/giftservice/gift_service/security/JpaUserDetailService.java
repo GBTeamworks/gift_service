@@ -1,7 +1,7 @@
 package com.giftservice.gift_service.security;
 
-import com.giftservice.gift_service.dao.UserDao;
 import com.giftservice.gift_service.entities.security.User;
+import com.giftservice.gift_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,10 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class JpaUserDetailService implements UserDetailsService {
 
-    private final UserDao userDao;
+    private final UserRepository userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         User users = userDao.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("Username: " + username + "not found!")
         );

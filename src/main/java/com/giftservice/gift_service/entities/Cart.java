@@ -1,6 +1,7 @@
 package com.giftservice.gift_service.entities;
 
 import com.giftservice.gift_service.entities.enums.Status;
+import com.giftservice.gift_service.entities.security.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,7 +23,15 @@ public class Cart {
     @Enumerated(EnumType.STRING)
     private Set<Status> status;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToOne
+    @JoinTable(
+            name = "user_cart",
+            joinColumns = {@JoinColumn(name = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private User giver;
+
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cart_gift",
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "gift_id"))
