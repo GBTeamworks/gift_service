@@ -4,20 +4,21 @@ import com.giftservice.gift_service.dto.UserDto;
 import com.giftservice.gift_service.entities.security.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
-    void saveUser(UserDto userDto);
+    void save(UserDto userDto);
 
-    void updateUser(UserDto userDto);
+    void update(UserDto userDto);
 
     void addFriend(UserDto thisUserDto, UserDto friendUserDto);
 
     void deleteFriend(UserDto thisUserDto, UserDto friendUserDto);
 
-    User findUserByEmail(String email);
+    User findByEmail(String email);
 
-    User findUserByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     List<UserDto> findAllUsers();
 }

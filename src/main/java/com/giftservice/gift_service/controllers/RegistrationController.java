@@ -3,23 +3,22 @@ package com.giftservice.gift_service.controllers;
 import com.giftservice.gift_service.dto.UserDto;
 import com.giftservice.gift_service.entities.security.User;
 import com.giftservice.gift_service.services.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Controller
+@AllArgsConstructor
 public class RegistrationController {
 
-    private UserService userService;
-
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
@@ -30,16 +29,21 @@ public class RegistrationController {
     }
 
     @GetMapping("/login")
-    String login() {
+    public String login() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return "redirect:/lk";
+        }
         return "login";
     }
 
-    @PostMapping("/registration/save")
+    @PostMapping("/registration")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
                                Model model) {
 
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
+        User existingUser = userService.findByEmail(userDto.getEmail());
 
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null,
@@ -51,7 +55,7 @@ public class RegistrationController {
             return "/registration";
         }
 
-        userService.saveUser(userDto);
+        userService.save(userDto);
         return "redirect:/login";
     }
 }

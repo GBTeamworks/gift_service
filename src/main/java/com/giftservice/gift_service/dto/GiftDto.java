@@ -1,6 +1,5 @@
 package com.giftservice.gift_service.dto;
 
-import com.giftservice.gift_service.entities.security.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +22,6 @@ public class GiftDto {
     private String description;
 
     @NotEmpty
-    private User user;
+    private UserDto user;
 
 }

@@ -1,10 +1,12 @@
 package com.giftservice.gift_service.services;
 
 import com.giftservice.gift_service.dto.GiftDto;
+import com.giftservice.gift_service.dto.UserDto;
 import com.giftservice.gift_service.entities.Gift;
 import com.giftservice.gift_service.entities.security.User;
 import com.giftservice.gift_service.repository.GiftRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +26,12 @@ public class GiftService {
 
         newGift.setTitle(newGiftDto.getTitle());
         newGift.setDescription(newGiftDto.getDescription());
-        newGift.setUser(newGiftDto.getUser());
+
+        User user = new User();
+        user.setId(newGiftDto.getUser().getId());
+        user.setUsername(newGiftDto.getUser().getUsername());
+        user.setEmail(newGiftDto.getUser().getEmail());
+        newGift.setUser(user);
 
         giftRepository.save(newGift);
     }

@@ -27,6 +27,4 @@ public class CartController {
     public String update() {
         return "redirect:/cart";
     }
-
-
 }

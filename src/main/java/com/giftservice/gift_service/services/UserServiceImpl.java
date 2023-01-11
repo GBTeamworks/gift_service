@@ -7,9 +7,11 @@ import com.giftservice.gift_service.repository.AuthorityRepository;
 import com.giftservice.gift_service.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(UserDto userDto) {
+    public void save(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
@@ -47,6 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void addFriend(UserDto thisUserDto, UserDto friendUserDto) {
 
         User thisUser = userRepository.findByEmail(thisUserDto.getEmail());
@@ -58,6 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteFriend(UserDto thisUserDto, UserDto friendUserDto) {
 
         User thisUser = userRepository.findByEmail(thisUserDto.getEmail());
@@ -69,31 +73,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserDto userDto) {
-        User user = new User();
+    public void update(UserDto userDto) {
+
+        User user = userRepository.findById(userDto.getId()).get();
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         LocalDate localDate = LocalDate.parse(userDto.getBirthdate());
         user.setBirthdate(localDate);
-        user.setId(userDto.getId());
 
-        user.setPassword(userDto.getPassword());
-
-        Authority role = authorityRepository.findByRole("USER");
-        if (role == null) {
-            role = checkRoleExist();
-        }
-        user.setAuthorities(Set.of(role));
         userRepository.save(user);
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 

@@ -5,73 +5,89 @@ import com.giftservice.gift_service.dto.UserDto;
 import com.giftservice.gift_service.entities.Cart;
 import com.giftservice.gift_service.entities.Gift;
 import com.giftservice.gift_service.entities.security.User;
-import com.giftservice.gift_service.security.JpaUserDetailService;
+import com.giftservice.gift_service.repository.UserRepository;
 import com.giftservice.gift_service.services.CartService;
 import com.giftservice.gift_service.services.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/lk")
 public class PersonalAccountController {
 
-    private final JpaUserDetailService jpaUserDetailService;
     private final UserService userService;
     private final CartService cartService;
-
-
-    public PersonalAccountController(JpaUserDetailService jpaUserDetailService, UserService userService, CartService cartService) {
-        this.jpaUserDetailService = jpaUserDetailService;
-        this.userService = userService;
-        this.cartService = cartService;
-    }
+    private final UserRepository userRepository;
+    private Long thisUserId;
+    private String thisUserUsername;
 
     @GetMapping
     public String view() {
         return "lkPages/personalAccount";
     }
 
-    @GetMapping("/reg-data")
-    public String registrationData(Model model) {
+    @GetMapping("/user-info")
+    public String showForm(Model model) {
+
         UserDto userDto = new UserDto();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user = null;
 
-        User user = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
-
-        userDto.setUsername(user.getUsername());
-        userDto.setBirthdate(user.getBirthdate().toString());
-        userDto.setEmail(user.getEmail());
-        model.addAttribute("user", userDto);
-        return "lkPages/registrationDataPage";
-    }
-
-    @PostMapping("/reg-data")
-    public String changeRegData(@ModelAttribute("user") UserDto userDto) {
-
-        //TODO исправить сохранение данных. Пока работает только сохранение юзернейма.
-
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
-        User user = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
-
-        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-
-            userDto.setPassword(existingUser.getPassword());
-            userDto.setId(existingUser.getId());
-            user.setUsername(userDto.getUsername());
-            userService.updateUser(userDto);
-            return "lkPages/personalAccount";
+        try {
+            if (thisUserId != null && thisUserId.equals(userService.findByUsername(auth.getName()).get().getId())) {
+                user = userRepository.findById(thisUserId);
+            } else {
+                user = userService.findByUsername(auth.getName());
+                thisUserId = user.get().getId();
+            }
+        } catch (NoSuchElementException e) {
+            user = userService.findByUsername(thisUserUsername);
         }
 
-        return "redirect:/lk/reg-data";
+        userDto.setUsername(user.get().getUsername());
+        userDto.setBirthdate(user.get().getBirthdate().toString());
+        userDto.setEmail(user.get().getEmail());
+        model.addAttribute("user", userDto);
+        return "lkPages/userInfoPage";
+    }
+
+    @PostMapping("/user-info")
+    public String changeUserInfo(@ModelAttribute("user") UserDto userDto) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user;
+
+        if (thisUserId != null && thisUserId == userService.findByUsername(auth.getName()).get().getId()) {
+            user = userRepository.findById(thisUserId);
+        } else {
+            user = userService.findByUsername(auth.getName());
+        }
+
+        userDto.setId(user.get().getId());
+        user.get().setUsername(userDto.getUsername());
+        user.get().setEmail(userDto.getEmail());
+        user.get().setBirthdate(LocalDate.parse(userDto.getBirthdate()));
+        thisUserUsername = userDto.getUsername();
+        userService.update(userDto);
+        return "lkPages/personalAccount";
     }
 
     @GetMapping("/friends")
     public String friends(Model model) {
 
-        User user = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
-        Set<User> friends = user.getSubscribers();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user = userService.findByUsername(auth.getName());
+        Set<User> friends = user.get().getSubscribers();
 
         model.addAttribute("friends", friends);
 
@@ -81,12 +97,13 @@ public class PersonalAccountController {
     @PostMapping("/delete-friend")
     public String deleteFriends(@ModelAttribute("user") UserDto friendUserDto) {
 
-        User thisUser = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> thisUser = userService.findByUsername(auth.getName());
         UserDto thisUserDto = new UserDto();
 
-        thisUserDto.setUsername(thisUser.getUsername());
-        thisUserDto.setBirthdate(thisUser.getBirthdate().toString());
-        thisUserDto.setEmail(thisUser.getEmail());
+        thisUserDto.setUsername(thisUser.get().getUsername());
+        thisUserDto.setBirthdate(thisUser.get().getBirthdate().toString());
+        thisUserDto.setEmail(thisUser.get().getEmail());
         userService.deleteFriend(thisUserDto, friendUserDto);
         return "redirect:/lk/friends";
     }
@@ -98,8 +115,16 @@ public class PersonalAccountController {
 
     @GetMapping("/i-will-give")
     public String iWillGive(Model model) {
-        User thisUser = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
-        Cart cart = thisUser.getCart();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> thisUser = userService.findByUsername(auth.getName());
+        Cart cart;
+        if (thisUser.get().getCart() == null) {
+            cart = new Cart();
+            cart.setGiver(thisUser.get());
+        } else {
+            cart = thisUser.get().getCart();
+        }
 
         model.addAttribute("gifts", cart.getGifts());
         return "lkPages/iWillGivePage";
@@ -114,10 +139,11 @@ public class PersonalAccountController {
     @PostMapping("/delete-give")
     public String remove(@ModelAttribute("gift") GiftDto giftDto) {
 
-        User thisUser = userService.findUserByUsername(jpaUserDetailService.getThisUsername());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> thisUser = userService.findByUsername(auth.getName());
         Gift giftToRemove = null;
 
-        for (Gift giftInCart : thisUser.getCart().getGifts()) {
+        for (Gift giftInCart : thisUser.get().getCart().getGifts()) {
             if (giftInCart.getTitle().equals(giftDto.getTitle())
                     && giftInCart.getDescription().equals(giftDto.getDescription())) {
 
@@ -125,8 +151,8 @@ public class PersonalAccountController {
             }
         }
         if (giftToRemove != null) {
-            thisUser.getCart().getGifts().remove(giftToRemove);
-            cartService.save(thisUser.getCart());
+            thisUser.get().getCart().getGifts().remove(giftToRemove);
+            cartService.save(thisUser.get().getCart());
         }
         return "redirect:/lk/i-will-give";
     }
