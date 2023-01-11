@@ -3,6 +3,7 @@ package com.giftservice.gift_service.entities;
 import com.giftservice.gift_service.entities.security.User;
 import lombok.*;
 
+
 import javax.persistence.*;
 
 @Entity

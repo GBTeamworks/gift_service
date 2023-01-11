@@ -42,7 +42,7 @@ public class User implements UserDetails {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private List<Gift> gifts;
+    private List<Gift> gifts = new ArrayList<>();
 
     @OneToOne
     @JoinTable(
@@ -73,7 +73,7 @@ public class User implements UserDetails {
     @JoinTable(name = "user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
 
     @Override
     public boolean isAccountNonExpired() {
@@ -93,15 +93,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.username;
     }
 }
