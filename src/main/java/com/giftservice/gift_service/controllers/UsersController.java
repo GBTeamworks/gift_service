@@ -46,7 +46,7 @@ public class UsersController {
 
         model.addAttribute("users", userListToShow);
 
-        return "users";
+        return "basePages/users";
     }
 
     @PostMapping("/add-friend")
