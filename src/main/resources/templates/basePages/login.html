@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html::head">
+    <title>Авторизация</title>
+</head>
+
+<body>
+
+<nav th:replace="fragments/header.html::navbar">
+</nav>
+
+<h2 th:align="center">Авторизация</h2>
+
+<div class="container">
+    <div th:if="${param.error}" th:align="center">
+        <div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive"
+             aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Не верно введены имя пользователя или пароль
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Закрыть"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label>Имя пользователя</label>
+            <input type="text" name="username" class="form-control" placeholder="Имя пользователя">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Пароль</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль">
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+</div>
+
+</body>
+<th:block th:replace="fragments/footer.html::footer">
+</th:block>
+</html>

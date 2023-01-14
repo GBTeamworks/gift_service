@@ -13,12 +13,12 @@ public class CartController {
         return "cart";
     }
 
-    @PostMapping("/add/{giftId}")
+    @PutMapping("/{giftId}")
     public String add(@PathVariable Long giftId) {
         return "redirect:/gifts";
     }
 
-    @DeleteMapping("/delete/{giftId}")
+    @PutMapping("/delete/{giftId}")
     public String remove(@PathVariable Long giftId) {
         return "redirect:/cart";
     }
@@ -27,6 +27,4 @@ public class CartController {
     public String update() {
         return "redirect:/cart";
     }
-
-
 }
