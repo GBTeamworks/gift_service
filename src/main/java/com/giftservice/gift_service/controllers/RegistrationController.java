@@ -25,7 +25,7 @@ public class RegistrationController {
         UserDto user = new UserDto();
         model.addAttribute("user", user);
 
-        return "registration";
+        return "basePages/registration";
     }
 
     @GetMapping("/login")
@@ -35,7 +35,7 @@ public class RegistrationController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             return "redirect:/lk";
         }
-        return "login";
+        return "basePages/login";
     }
 
     @PostMapping("/registration")
@@ -52,7 +52,7 @@ public class RegistrationController {
 
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
-            return "/registration";
+            return "basePages/registration";
         }
 
         userService.save(userDto);

@@ -67,10 +67,16 @@ public class PersonalAccountController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user;
 
-        if (thisUserId != null && thisUserId == userService.findByUsername(auth.getName()).get().getId()) {
-            user = userRepository.findById(thisUserId);
-        } else {
-            user = userService.findByUsername(auth.getName());
+
+        try {
+            if (thisUserId != null && thisUserId.equals(userService.findByUsername(auth.getName()).get().getId())) {
+                user = userRepository.findById(thisUserId);
+            } else {
+                user = userService.findByUsername(auth.getName());
+                thisUserId = user.get().getId();
+            }
+        } catch (NoSuchElementException e) {
+            user = userService.findByUsername(thisUserUsername);
         }
 
         userDto.setId(user.get().getId());
