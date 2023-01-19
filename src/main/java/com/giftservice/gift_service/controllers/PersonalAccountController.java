@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/lk")
 public class PersonalAccountController {
