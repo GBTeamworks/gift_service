@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@RestController
+@Controller
 @AllArgsConstructor
 @RequestMapping("/users")
 public class UsersController {

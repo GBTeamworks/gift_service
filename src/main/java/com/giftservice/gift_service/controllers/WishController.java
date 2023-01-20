@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController
+@Controller
 @AllArgsConstructor
 @RequestMapping("/wishes")
 public class WishController {
