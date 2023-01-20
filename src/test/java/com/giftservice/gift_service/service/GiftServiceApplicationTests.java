@@ -1,4 +1,4 @@
-package com.giftservice.gift_service;
+package com.giftservice.gift_service.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

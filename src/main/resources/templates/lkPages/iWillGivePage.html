@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header.html::head">
@@ -9,20 +9,20 @@
 <nav th:replace="fragments/header.html::navbar">
 </nav>
 
-&nbsp;
+&#xA0;
 
 <div class="container">
     <h1 th:align="center">Я буду дарить</h1>
 </div>
 
-&nbsp;
+&#xA0;
 
 <div class="container">
     <span th:if="${gifts.size() == 0}">Список подарков пуст</span>
     <div th:unless="${gifts.size() == 0}">
 
         <div class="card mb-3" th:each="gift, i : ${gifts}" th:align="center">
-            <img class="card-img-top" th:src="@{/img/gift.svg}" alt="Card image cap">
+            <img class="card-img-top" th:src="@{/img/gift.svg}" alt="Card image cap"/>
             <div class="card-body">
                 <h5 class="card-title" th:text="${gift.getTitle()}"></h5>
                 <p class="card-text" th:text="${gift.getDescription()}"></p>
@@ -38,7 +38,7 @@
 
             </div>
         </div>
-        &nbsp;
+        &#xA0;
     </div>
 </div>
 

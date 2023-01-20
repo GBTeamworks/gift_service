@@ -50,10 +50,15 @@ public class UsersController {
     }
 
     @PostMapping("/add-friend")
-    public String addFriend(@ModelAttribute("user") UserDto friendUserDto) {
+    public String addFriend(@ModelAttribute("user") UserDto friendUserDto, Authentication a) {
 
         UserDto thisUserDto = new UserDto();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth;
+        if (a != null) {
+            auth = a;
+        }else {
+            auth = SecurityContextHolder.getContext().getAuthentication();
+        }
 
         if (friendUserDto != null && friendUserDto.getEmail() != null && !friendUserDto.getEmail().isEmpty()) {
 
