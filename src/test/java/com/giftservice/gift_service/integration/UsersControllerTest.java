@@ -1,6 +1,5 @@
 package com.giftservice.gift_service.integration;
 
-import com.giftservice.gift_service.controllers.PersonalAccountController;
 import com.giftservice.gift_service.controllers.UsersController;
 import com.giftservice.gift_service.dto.UserDto;
 import org.junit.Test;

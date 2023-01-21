@@ -1,6 +1,5 @@
 package com.giftservice.gift_service.integration;
 
-import com.giftservice.gift_service.controllers.PersonalAccountController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Sql(value = {"dml-test.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @AutoConfigureMockMvc
 public class PersonalAccountControllerTest {
-
-    @Autowired
-    private PersonalAccountController personalAccountController;
 
     @Autowired
     private MockMvc mockMvc;
@@ -80,5 +76,4 @@ public class PersonalAccountControllerTest {
                 .andExpect(content().string(containsString(
                         "Я буду дарить")));
     }
-
 }

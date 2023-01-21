@@ -3,13 +3,10 @@ package com.giftservice.gift_service.integration;
 import com.giftservice.gift_service.controllers.GiftController;
 import com.giftservice.gift_service.dto.GiftDto;
 import org.junit.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -25,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @WithUserDetails("TestUser1")
 @TestPropertySource("/application-test.properties")
 @Sql(value = {"dml-test.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -39,7 +35,6 @@ public class GiftControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @Order(1)
     public void giftsPageTest() throws Exception {
 
         this.mockMvc.perform(
@@ -52,7 +47,6 @@ public class GiftControllerTest {
     }
 
     @Test
-    @Order(2)
     public void willGiveTest() throws Exception {
 
         GiftDto giftDto = new GiftDto();
