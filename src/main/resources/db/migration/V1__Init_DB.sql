@@ -1,4 +1,3 @@
-# # Создание основной БД
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
@@ -6,9 +5,7 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
-# CREATE DATABASE IF NOT EXISTS `gift_service` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-#
-# CREATE DATABASE IF NOT EXISTS `gift_service_test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE IF NOT EXISTS `gift_service` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 
 USE `gift_service`;
 
@@ -163,6 +160,8 @@ CREATE TABLE `user_friends`
   COLLATE = utf8mb4_general_ci;
 
 # Создание тестовой БД
+DROP DATABASE IF EXISTS `gift_service_test`;
+CREATE DATABASE `gift_service_test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 
 USE `gift_service_test`;
 
