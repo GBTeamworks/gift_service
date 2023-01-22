@@ -1,12 +1,16 @@
 package com.giftservice.gift_service.integration;
 
 import com.giftservice.gift_service.controllers.GiftController;
+import com.giftservice.gift_service.controllers.UsersController;
 import com.giftservice.gift_service.dto.GiftDto;
+import com.giftservice.gift_service.dto.UserDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -32,10 +36,22 @@ public class GiftControllerTest {
     private GiftController giftController;
 
     @Autowired
+    private UsersController usersController;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Test
     public void giftsPageTest() throws Exception {
+
+        UserDto userDto = new UserDto();
+        userDto.setUsername("TestUser2");
+        userDto.setBirthdate("2022-12-02");
+        userDto.setEmail("testUser2@mail.ru");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        usersController.addFriend(userDto, auth);
 
         this.mockMvc.perform(
                         get("/gifts"))
