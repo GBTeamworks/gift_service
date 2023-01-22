@@ -18,7 +18,7 @@ public class Category {
     @Column(name = "title")
     private String title;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
             name = "category_gift",
             joinColumns = @JoinColumn(name = "category_id"),

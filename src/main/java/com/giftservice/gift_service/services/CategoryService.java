@@ -14,8 +14,9 @@ public class CategoryService {
 
     private final CategoryDao categoryDao;
 
-    public void createCategory (Category category) {
+    public Category createCategory (Category category) {
         categoryDao.save(category);
+        return category;
     }
 
     public List<Category> findAll() {
