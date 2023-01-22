@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -39,7 +40,18 @@ public class GiftController {
                 .filter(p -> p.getCart() == null)
                 .toList());
 
-        model.addAttribute("gifts", giftsFiltered);
+        Set<User> subscribersList = thisUser.get().getSubscribers();
+        List<Gift> giftsListToShow = new ArrayList<>();
+
+        for (User sub: subscribersList) {
+            for (Gift gift: giftsFiltered) {
+                if (sub.getEmail().equals(gift.getUser().getEmail())) {
+                    giftsListToShow.add(gift);
+                }
+            }
+        }
+
+        model.addAttribute("gifts", giftsListToShow);
         return "giftsPages/gifts";
     }
 
