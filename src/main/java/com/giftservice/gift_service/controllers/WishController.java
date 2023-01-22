@@ -78,8 +78,6 @@ public class WishController {
 
         Optional<User> thisUser = userService.findByUsername(auth.getName());
         Gift wish = giftService.getGiftByUserAndTitle(thisUser.get(), giftDto.getTitle());
-        System.out.println(thisUser.get().getEmail());
-        System.out.println(giftDto.getTitle());
 
         giftService.deleteById(wish.getId());
 
