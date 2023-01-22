@@ -1,13 +1,14 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:fragment="head">
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
     <title>Сервис подбора подарков</title>
 
@@ -26,10 +27,10 @@
     </style>
 </head>
 
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">
-            <img src="https://www.svgrepo.com/show/425210/gift-ecommerce-shopmarket.svg" alt="" width="40" height="35">
+            <img src="https://svgshare.com/i/piL.svg" alt="" width="35" height="35"/>
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -54,7 +55,7 @@
                 <li class="nav-item" sec:authorize="isAnonymous()">
                     <a type="button" th:href="@{/login}" class="btn btn-success navbar-right">Войти</a>
                 </li>
-                &nbsp;
+                &#xA0;
                 <li class="nav-item" sec:authorize="isAnonymous()">
                     <a type="button" th:href="@{/registration}" class="btn btn-primary navbar-right">Регистрация</a>
                 </li>
@@ -62,7 +63,7 @@
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a type="button" th:href="@{/lk}" class="btn btn-success navbar-right">Личный кабинет</a>
                 </li>
-                &nbsp;
+                &#xA0;
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
                         <input type="submit" class="btn btn-danger" value="Выйти"/>
@@ -72,5 +73,4 @@
         </div>
     </div>
 </nav>
-
 </html>

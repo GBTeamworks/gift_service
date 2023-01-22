@@ -35,7 +35,7 @@ public class Gift {
             joinColumns = @JoinColumn(name = "gift_id"),
             inverseJoinColumns = @JoinColumn(name = "cart_id"))
 
-    private Cart cart;;
+    private Cart cart;
 
     @ManyToOne
     @JoinTable(name = "category_gift",
