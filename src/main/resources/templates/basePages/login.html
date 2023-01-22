@@ -13,17 +13,10 @@
 <h2 th:align="center">Авторизация</h2>
 
 <div class="container">
-    <div th:if="${param.error}" th:align="center">
-        <div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive"
-             aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    Не верно введены имя пользователя или пароль
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Закрыть"></button>
-            </div>
-        </div>
+    <div th:if="${param.error}">
+        &#xA0;
+        <h5 th:align="center" style="color: red">Не верно введены имя пользователя или пароль</h5>
+        &#xA0;
     </div>
 </div>
 <div class="container">
