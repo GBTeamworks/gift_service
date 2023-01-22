@@ -6,7 +6,7 @@
 <ul>
 <li>БД: MariaDB, Hibernate, Flyway.</li>
 <li>Web-server: Apache TomCat в составе Java Spring Boot.</li>
-<li>Front-end: AngularJS, Swagger, Redis (альтернативный вариаант: HTML, Bootstrap, Thymeleaf. Возможно применение JS и AJAX)</li>
+<li>Front-end: HTML, Bootstrap, Thymeleaf.</li>
 <li>Back-end: Maven, Spring Framework, Spring Data, Spring Security, Lombok</li>
 </ul>
 
@@ -21,5 +21,25 @@
 <li><a href="https://github.com/Egor-Khaziev">Егор</a>: Back-end, БД(возможно)</li>
 </ul>
 
+<h4>Запуск проекта:</h4>
+
+
+Клонировать проект к себе
+Из корня проекта выполнить команды:
+<ul>
+<li>mvn clean</li>
+<li>mvn install</li>
+</ul>
+
+После выполнения команд в корне проекта создалась папка target и в этой папке выполняем команды:
+
+<ul>
+<li>docker-compose build</li>
+<li>docker-compose up</li>
+</ul>
+Проект запущен ! 
+Тесты можно запустить вручную если уже запущен проект или контейнер БД.
+
 <hr>
 Подробное описание проекта: <a href="https://docs.google.com/document/d/1JalT0d-NrFb3reD91P5e70R5gDLTBG3z/edit?usp=sharing&ouid=106094704088529691884&rtpof=true&sd=true">в гугл-доках</a>
+
