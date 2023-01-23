@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header.html::head">
@@ -9,6 +9,14 @@
 <nav th:replace="fragments/header.html::navbar">
 </nav>
 
+&#xA0;
+
+<div class="container">
+    <h1 th:align="center">Регистрация</h1>
+</div>
+
+&#xA0;
+
 <div class="container">
     <form method="post"
           role="form"
@@ -17,26 +25,26 @@
 
         <div class="form-group">
             <label>Имя пользователя</label>
-            <input type="text" class="form-control" placeholder="Имя пользователя" th:field="*{username}">
+            <input type="text" class="form-control" placeholder="Имя пользователя" th:field="*{username}"/>
         </div>
 
         <div class="form-group">
             <label for="exampleInputEmail1">Email адрес</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                   placeholder="Введите email" th:field="*{email}">
+                   placeholder="Введите email" th:field="*{email}"/>
             <small id="emailHelp" class="form-text text-muted">Мы никогда не будем делиться вашей электронной почтой с
                 кем-либо еще.</small>
         </div>
 
         <div class="form-group">
             <label>Дата рождения</label>
-            <input type="date" value="гггг-мм-дд" class="form-control" th:field="*{birthdate}">
+            <input type="date" value="гггг-мм-дд" class="form-control" th:field="*{birthdate}"/>
         </div>
 
         <div class="form-group">
             <label for="exampleInputPassword1">Пароль</label>
             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Введите пароль"
-                   th:field="*{password}">
+                   th:field="*{password}"/>
         </div>
 
         <button type="submit" class="btn btn-primary">Регистрация</button>

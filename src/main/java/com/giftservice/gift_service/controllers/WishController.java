@@ -11,10 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -36,7 +33,7 @@ public class WishController {
     }
 
     @GetMapping("/add-wish")
-    public String addNewWish(Model model) {
+    public String showAddNewWish(Model model) {
 
         GiftDto gift = new GiftDto();
         model.addAttribute("gift", gift);
@@ -45,9 +42,16 @@ public class WishController {
     }
 
     @PostMapping("/add-wish")
-    public String addNewWish(@ModelAttribute("wish") GiftDto giftDto) {
+    public String addNewWish(@ModelAttribute("wish") GiftDto giftDto, Authentication authentication) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth;
+
+        if (authentication != null) {
+            auth = authentication;
+        } else {
+            auth = SecurityContextHolder.getContext().getAuthentication();
+        }
+
         Optional<User> thisUser = userService.findByUsername(auth.getName());
         UserDto userDto = new UserDto();
         userDto.setId(thisUser.get().getId());
@@ -62,9 +66,16 @@ public class WishController {
     }
 
     @PostMapping("/delete-wish")
-    public String deleteWish(@ModelAttribute("gift") GiftDto giftDto) {
+    public String deleteWish(@ModelAttribute("gift") GiftDto giftDto, Authentication authentication) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth;
+
+        if (authentication != null) {
+            auth = authentication;
+        } else {
+            auth = SecurityContextHolder.getContext().getAuthentication();
+        }
+
         Optional<User> thisUser = userService.findByUsername(auth.getName());
         Gift wish = giftService.getGiftByUserAndTitle(thisUser.get(), giftDto.getTitle());
 

@@ -9,10 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,14 +43,19 @@ public class UsersController {
 
         model.addAttribute("users", userListToShow);
 
-        return "users";
+        return "basePages/users";
     }
 
     @PostMapping("/add-friend")
-    public String addFriend(@ModelAttribute("user") UserDto friendUserDto) {
+    public String addFriend(@ModelAttribute("user") UserDto friendUserDto, Authentication authentication) {
 
         UserDto thisUserDto = new UserDto();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth;
+        if (authentication != null) {
+            auth = authentication;
+        }else {
+            auth = SecurityContextHolder.getContext().getAuthentication();
+        }
 
         if (friendUserDto != null && friendUserDto.getEmail() != null && !friendUserDto.getEmail().isEmpty()) {
 

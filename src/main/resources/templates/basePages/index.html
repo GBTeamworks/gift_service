@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head th:replace="fragments/header.html::head">
+    <title>Главная страница</title>
+</head>
+
+<body>
+
+<div>
+    <nav th:replace="fragments/header.html::navbar"></nav>
+
+    &#xA0;
+
+    <div class="container">
+        <h1 th:align="center">Привет, это gift service — сервис для создания списка желанных подарков</h1>
+    </div>
+
+    <div class="container" sec:authorize="isAnonymous()">
+        &#xA0;
+        <h3 th:align="center">Чтобы начать пользоваться сервисом, нужно авторизоваться:</h3>
+        &#xA0;
+        <div th:align="center">
+            <a type="button" th:href="@{/login}" class="btn btn-success navbar-right">Войти</a>
+            &#xA0;
+            <a type="button" th:href="@{/registration}" class="btn btn-primary navbar-right">Регистрация</a>
+        </div>
+    </div>
+
+    <div class="container" sec:authorize="isAuthenticated()">
+        <div class="text-center">
+            <img th:src="@{/img/GiftsInMainPage.gif}" alt="" src=""/>
+        </div>
+    </div>
+</div>
+</body>
+<footer>
+    <th:block th:replace="fragments/footer.html::footer">
+    </th:block>
+</footer>
+</html>

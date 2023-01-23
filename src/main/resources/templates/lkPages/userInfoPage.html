@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header.html::head">
@@ -21,18 +21,18 @@
 
         <div class="form-group">
             <label>Имя пользователя</label>
-            <input type="text" class="form-control" placeholder="Имя пользователя" th:field="*{username}">
+            <input type="text" class="form-control" placeholder="Имя пользователя" th:field="*{username}"/>
         </div>
 
         <div class="form-group">
             <label for="exampleInputEmail1">Email адрес</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                   placeholder="Введите email" th:field="*{email}">
+                   placeholder="Введите email" th:field="*{email}"/>
         </div>
 
         <div class="form-group">
             <label>Дата рождения</label>
-            <input type="date" value="гггг-мм-дд" class="form-control" th:field="*{birthdate}">
+            <input type="date" value="гггг-мм-дд" class="form-control" th:field="*{birthdate}"/>
         </div>
 
         <button type="submit" class="btn btn-primary">Сохранить</button>
